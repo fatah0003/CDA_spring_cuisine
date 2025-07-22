@@ -15,6 +15,6 @@ public class Recette {
     private String nom;
     private String ingredient;
     private String instruction;
-    private Categorie categorie;
+    private String categorie;
 
 }

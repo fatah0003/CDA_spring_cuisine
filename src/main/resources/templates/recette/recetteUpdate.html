@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<span th:replace="~{home :: navBar}"></span>
+
+<h1>Modification</h1>
+<form th:action="@{/update}" method="post" th:object="${recette}">
+    <span th:replace="~{recette/add :: formulaire}"></span>
+    <button>Modifier</button>
+</form>
+</body>
+</html>

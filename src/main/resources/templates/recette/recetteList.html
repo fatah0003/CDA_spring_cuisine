@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Liste des recettes</title>
 </head>
 <body>
-<h1> les recettes s'affichent ici</h1>
+<span th:replace="~{home :: navBar}"></span>
+<th:block th:fragment="displayStudentResult">
+    <p th:if="${recettes.isEmpty()}">Aucune recette !!!</p>
+    <table th:unless="${recettes.isEmpty()}">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom</th>
+            <th>catégorie</th>
+            <th>Ingrédients</th>
+            <th>Instruction</th>
+        </tr>
+        </thead>
+        <tbody th:each="r : ${recettes}">
+        <tr>
+            <td th:text="${r.getId()}"></td>
+            <td th:text="${r.getNom()}"></td>
+            <td th:text="${r.getCategorie()}"></td>
+            <td th:text="${r.getIngredient()}"></td>
+            <td th:text="${r.getInstruction()}"></td>
+            <td>
+                <a th:href="@{/update/{id}(id=${r.getId()})}">Modifier</a>
+                <a th:href="@{/delete/{id}(id=${r.getId()})}">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+<a th:href="@{/add}">Ajouter une recette</a>
 </body>
 </html>
