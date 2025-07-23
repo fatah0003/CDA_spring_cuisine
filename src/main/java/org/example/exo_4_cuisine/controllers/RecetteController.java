@@ -2,12 +2,11 @@ package org.example.exo_4_cuisine.controllers;
 
 import org.example.exo_4_cuisine.interfaces.ICategorieService;
 import org.example.exo_4_cuisine.interfaces.IRecetteService;
+import org.example.exo_4_cuisine.model.Categorie;
 import org.example.exo_4_cuisine.model.Recette;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,11 +34,14 @@ public class RecetteController {
     }
 
     @PostMapping("/add")
-    public String addRecette(Recette recette){
-        if(recette != null)
-            recetteService.createRecette(recette);
-        System.out.println("ici");
-        return "redirect:/list";
+    public String addRecette(@ModelAttribute Recette recette,
+                             @RequestParam("categorieId") UUID categorieId) {
+
+        Categorie cat = categorieService.getCategorieById(categorieId); // méthode à avoir dans ton service
+        recette.setCategorie(cat);
+
+        recetteService.createRecette(recette); // ou addRecette() si c'est le nom chez toi
+        return "redirect:/recette/list";
     }
 
     @GetMapping("/update/{id}")

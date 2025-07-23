@@ -14,7 +14,7 @@
         <label for="nom">Nom :</label>
         <input th:field="*{nom}" type="text" id="nom" name="nom">
         <label for="categorie">Catégorie :</label>
-        <select th:field="*{categorie}" id="categorie" name="categorie">
+        <select id="categorie" name="categorieId">
             <option th:each="cat : ${categories}"
                     th:value="${cat.id}"
                     th:text="${cat.nom}">
