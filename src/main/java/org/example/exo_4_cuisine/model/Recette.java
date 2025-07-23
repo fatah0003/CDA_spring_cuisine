@@ -2,6 +2,7 @@ package org.example.exo_4_cuisine.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -17,8 +18,11 @@ public class Recette {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @NotBlank
     private String nom;
+    @NotBlank
     private String ingredient;
+    @NotBlank
     private String instruction;
     @ManyToOne
     @JoinColumn(name = "categorie_id")

@@ -2,6 +2,7 @@ package org.example.exo_4_cuisine.service;
 
 import org.example.exo_4_cuisine.interfaces.IRecetteService;
 import org.example.exo_4_cuisine.model.Recette;
+import org.example.exo_4_cuisine.repository.RecetteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,24 +13,25 @@ import java.util.UUID;
 @Service
 public class RecetteService implements IRecetteService {
 
-    private final Map<UUID, Recette> recettes = new HashMap<>();
+    public RecetteRepository recetteRepository;
+
+    public RecetteService(RecetteRepository recetteRepository) {
+        this.recetteRepository = recetteRepository;
+    }
 
     @Override
     public Recette createRecette(Recette recette) {
-        recette.setId(UUID.randomUUID());
-        recettes.put(recette.getId(), recette);
-        return recette;
+        return recetteRepository.save(recette);
     }
-
 
     @Override
     public List<Recette> getAllRecette() {
-        return recettes.values().stream().toList();
+        return recetteRepository.findAll();
     }
 
     @Override
     public Recette updateRecette(UUID id, Recette recette) {
-        Recette recetteToUpdate = recettes.get(id);
+        Recette recetteToUpdate = getRecetteById(recette.getId());
         if(recetteToUpdate == null)
             return null;
 
@@ -45,16 +47,16 @@ public class RecetteService implements IRecetteService {
         if(!recette.getIngredient().isBlank())
             recetteToUpdate.setIngredient(recette.getIngredient());
 
-        return recetteToUpdate;
+        return recetteRepository.save(recetteToUpdate);
     }
 
     @Override
     public void deleteRecetteById(UUID id) {
-        recettes.remove(id);
+        recetteRepository.deleteById(id);
     }
 
     @Override
     public Recette getRecetteById(UUID id) {
-        return recettes.get(id);
+        return recetteRepository.findById(id).orElse(null);
     }
 }

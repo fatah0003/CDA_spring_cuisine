@@ -2,6 +2,7 @@ package org.example.exo_4_cuisine.service;
 
 import org.example.exo_4_cuisine.interfaces.ICategorieService;
 import org.example.exo_4_cuisine.model.Categorie;
+import org.example.exo_4_cuisine.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,23 +13,25 @@ import java.util.UUID;
 @Service
 public class CategorieService implements ICategorieService {
 
-    private final Map<UUID, Categorie> categories = new HashMap<>();
+    public CategoryRepository categoryRepository;
+
+    public CategorieService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public Categorie createCategorie(Categorie categorie) {
-        categorie.setId(UUID.randomUUID());
-        categories.put(categorie.getId(), categorie);
-        return categorie;
+        return categoryRepository.save(categorie);
     }
 
     @Override
     public List<Categorie> getAllCategorie() {
-        return categories.values().stream().toList();
+        return categoryRepository.findAll();
     }
 
     @Override
     public Categorie updateCategorie(UUID id, Categorie categorie) {
-        Categorie categorieToUpdate = categories.get(id);
+        Categorie categorieToUpdate = getCategorieById(categorie.getId());
         if (categorieToUpdate == null)
             return null;
 
@@ -38,17 +41,18 @@ public class CategorieService implements ICategorieService {
         if (categorie.getDescription() != null && !categorie.getDescription().isBlank())
             categorieToUpdate.setDescription(categorie.getDescription());
 
-        return categorieToUpdate;
+        return categoryRepository.save(categorieToUpdate);
     }
 
     @Override
     public void deleteCategorieById(UUID id) {
-        categories.remove(id);
+
+        categoryRepository.deleteById(id);
     }
 
     @Override
     public Categorie getCategorieById(UUID id) {
-        return categories.get(id);
+        return categoryRepository.findById(id).orElse(null);
     }
 }
 
