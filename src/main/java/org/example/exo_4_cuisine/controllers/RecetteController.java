@@ -41,7 +41,7 @@ public class RecetteController {
         recette.setCategorie(cat);
 
         recetteService.createRecette(recette); // ou addRecette() si c'est le nom chez toi
-        return "redirect:/recette/list";
+        return "redirect:/list";
     }
 
     @GetMapping("/update/{id}")
