@@ -45,5 +45,10 @@ public class CategorieService implements ICategorieService {
     public void deleteCategorieById(UUID id) {
         categories.remove(id);
     }
+
+    @Override
+    public Categorie getCategorieById(UUID id) {
+        return categories.get(id);
+    }
 }
 

@@ -1,5 +1,6 @@
 package org.example.exo_4_cuisine.controllers;
 
+import org.example.exo_4_cuisine.interfaces.ICategorieService;
 import org.example.exo_4_cuisine.interfaces.IRecetteService;
 import org.example.exo_4_cuisine.model.Recette;
 import org.springframework.stereotype.Controller;
@@ -14,10 +15,12 @@ import java.util.UUID;
 @Controller
 public class RecetteController {
     private IRecetteService recetteService;
+    private final ICategorieService categorieService;
 
-    public RecetteController(IRecetteService recetteService) {
+    public RecetteController(IRecetteService recetteService, ICategorieService categorieService) {
         this.recetteService = recetteService;
-    }
+        this.categorieService = categorieService;
+        }
 
     @GetMapping("/home")
     public String home(){
@@ -27,6 +30,7 @@ public class RecetteController {
     @GetMapping("/add")
     public String addRecette(Model model){
         model.addAttribute("recette", new Recette());
+        model.addAttribute("categories", categorieService.getAllCategorie());
         return "recette/add";
     }
 
@@ -64,6 +68,7 @@ public class RecetteController {
     public String getAllRecettes(Model model){
         List<Recette> recettes = recetteService.getAllRecette();
         model.addAttribute("recettes", recettes);
+        model.addAttribute("categories", categorieService.getAllCategorie());
         return "recette/recetteList";
     }
 }

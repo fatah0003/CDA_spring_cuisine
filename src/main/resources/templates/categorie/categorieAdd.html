@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ajouter</title>
+</head>
+<body>
+<span th:replace="~{home :: navBar}"></span>
+<h1>Ajouter une catégorie</h1>
+
+<form th:action="@{/categories/add}" method="post" th:object="${categorie}">
+    <th:block th:fragment="formulaire">
+        <input th:field="*{id}" hidden="hidden">
+        <label for="nom">Nom :</label>
+        <input th:field="*{nom}" type="text" id="nom" name="nom">
+        <label for="description">description :</label>
+        <input th:field="*{description}" type="text" id="description" name="description">
+
+    </th:block>
+    <button>Ajouter</button>
+
+</form>
+
+</body>
+</html>
